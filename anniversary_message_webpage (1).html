@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 4th Anniversary My Love 💜</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Georgia&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-purple: #b794f4;
+            --dark-bg-1: #130f24;
+            --dark-bg-2: #1d1636;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: radial-gradient(circle at center, #231942 0%, #17102e 50%, var(--dark-bg-1) 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #f3e8ff;
+        }
+
+        .font-sans-ui {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .font-serif-title {
+            font-family: 'Cinzel', Georgia, serif;
+        }
+
+        /* Glassmorphism Card Container */
+        .glass-card {
+            background: rgba(29, 22, 54, 0.82);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(183, 148, 244, 0.22);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.75),
+                        0 0 40px rgba(183, 148, 244, 0.15);
+        }
+
+        .glass-inner {
+            background: rgba(23, 16, 46, 0.65);
+            border: 1px solid rgba(183, 148, 244, 0.18);
+        }
+
+        /* Glowing interactive buttons */
+        .btn-glow {
+            background: linear-gradient(135deg, #b794f4 0%, #9f7aea 50%, #805ad5 100%);
+            box-shadow: 0 0 25px rgba(183, 148, 244, 0.45),
+                        0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 0 38px rgba(183, 148, 244, 0.85),
+                        0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-glow:active {
+            transform: translateY(1px) scale(0.97);
+        }
+
+        /* Pulsing SVG heart glow */
+        .heart-glow {
+            filter: drop-shadow(0 0 18px rgba(183, 148, 244, 0.95)) 
+                    drop-shadow(0 0 38px rgba(159, 122, 234, 0.6));
+            animation: pulse-heart 2.6s infinite ease-in-out;
+        }
+
+        @keyframes pulse-heart {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 18px rgba(183, 148, 244, 0.95));
+            }
+            50% {
+                transform: scale(1.08);
+                filter: drop-shadow(0 0 30px rgba(183, 148, 244, 1)) 
+                        drop-shadow(0 0 50px rgba(159, 122, 234, 0.8));
+            }
+        }
+
+        /* Typewriter Cursor Effect */
+        .typewriter-cursor::after {
+            content: '💜';
+            animation: blink 0.8s infinite;
+            margin-left: 4px;
+            font-size: 0.85em;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(19, 15, 36, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(183, 148, 244, 0.4);
+            border-radius: 999px;
+        }
+
+        .sparkle-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            animation: floatSparkle 1.4s ease-out forwards;
+        }
+
+        @keyframes floatSparkle {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(0.6) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tw-x), var(--tw-y)) scale(1.4) rotate(220deg);
+            }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 md:p-6 relative selection:bg-purple-500 selection:text-white">
+
+    <!-- Floating Background Canvas -->
+    <canvas id="heart-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+    <!-- Confetti Explosion Canvas -->
+    <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+    <!-- Music Synth Toggle Button -->
+    <button id="music-toggle" onclick="toggleAudio()" class="fixed top-5 right-5 z-40 bg-purple-950/70 hover:bg-purple-900/90 text-purple-200 border border-purple-400/30 p-3 rounded-full backdrop-blur-md transition-all shadow-lg flex items-center justify-center gap-2 px-4 focus:outline-none font-sans-ui text-xs font-semibold" title="Toggle Soft Melodic Synth Music">
+        <i id="music-icon" class="fa-solid fa-music text-purple-300 text-sm"></i>
+        <span id="music-text" class="hidden sm:inline">Play Ambient Melody</span>
+    </button>
+
+    <main class="relative z-10 w-full max-w-xl mx-auto my-auto">
+
+        <!-- ================= STAGE 1: COVER SCREEN ================= -->
+        <section id="screen-1" class="glass-card rounded-3xl p-8 md:p-12 text-center transition-all duration-700 ease-in-out opacity-100 scale-100 flex flex-col items-center justify-center min-h-[480px]">
+            
+            <div class="mb-8 cursor-pointer" onclick="openEnvelope()">
+                <svg class="w-24 h-24 text-purple-300 heart-glow inline-block" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </div>
+
+            <h1 class="text-3xl md:text-4xl font-normal text-white mb-3 tracking-wide leading-tight font-serif-title">
+                I made something for you
+            </h1>
+
+            <p class="italic text-purple-200/90 text-lg md:text-xl mb-10 font-light">
+                Tap below, my love
+            </p>
+
+            <button onclick="openEnvelope()" class="btn-glow px-9 py-4 rounded-full text-white font-semibold text-lg tracking-wide focus:outline-none font-sans-ui flex items-center gap-3">
+                <span>Click to open</span>
+                <span class="text-xl">💜</span>
+            </button>
+        </section>
+
+        <!-- ================= STAGE 2: MAIN CARD ================= -->
+        <section id="screen-2" class="glass-card rounded-3xl p-6 md:p-10 text-left transition-all duration-700 ease-in-out hidden opacity-0 transform scale-95 flex flex-col items-center my-6 space-y-8">
+            
+            <!-- Animated Top Heart Icon -->
+            <div class="text-center w-full pt-2">
+                <svg class="w-16 h-16 text-purple-300 heart-glow inline-block" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </div>
+
+            <!-- Typewriter Message Body -->
+            <div class="w-full text-left space-y-4 text-purple-100/95 text-base md:text-lg font-normal leading-relaxed">
+                <p id="msg-line-1" class="min-h-[1.75rem]"></p>
+                <p id="msg-line-2" class="min-h-[1.75rem]"></p>
+                <div class="h-1"></div>
+                <p id="msg-line-3" class="min-h-[1.75rem]"></p>
+                <p id="msg-line-4" class="min-h-[1.75rem]"></p>
+                <div class="h-1"></div>
+                <p id="msg-line-5" class="min-h-[1.75rem] font-semibold text-purple-200"></p>
+            </div>
+
+            <!-- Revealing Title "I love you 💜" -->
+            <div id="main-title-container" class="text-center w-full pt-2 opacity-0 transition-opacity duration-1000">
+                <h2 class="text-4xl md:text-5xl text-purple-100 font-serif-title font-bold flex items-center justify-center gap-3">
+                    I love you <span class="text-purple-300 text-4xl md:text-5xl inline-block drop-shadow-[0_0_20px_rgba(183,148,244,0.9)]">💜</span>
+                </h2>
+            </div>
+
+            <!-- Interactive Hug Section -->
+            <div id="interactive-section" class="w-full text-center pt-2 opacity-0 transition-all duration-1000 flex flex-col items-center">
+                
+                <div id="prompt-container" class="transition-all duration-500">
+                    <p id="sub-prompt" class="italic text-purple-200 text-base md:text-lg mb-6 font-serif">
+                        Now be honest... I need one little thing from you 😜
+                    </p>
+
+                    <button id="send-hug-btn" onclick="triggerHugToLove(event)" class="btn-glow px-9 py-3.5 rounded-full text-white font-medium text-base tracking-wide font-sans-ui focus:outline-none inline-flex items-center gap-2">
+                        <span>Send me a hug</span>
+                        <span class="text-xl">🤗</span>
+                    </button>
+                </div>
+
+                <!-- Final Response State -->
+                <div id="final-love-state" class="hidden flex-col items-center justify-center space-y-4 transition-all duration-700">
+                    <button class="btn-glow px-9 py-3.5 rounded-full text-white font-medium text-base tracking-wide font-sans-ui focus:outline-none inline-flex items-center gap-2 cursor-default">
+                        <span>I love you too</span>
+                        <span class="text-xl">💜</span>
+                    </button>
+                    <div class="space-y-1.5 pt-2">
+                        <p class="italic text-purple-200 text-lg md:text-xl font-normal font-serif">
+                            Gotcha. You just said it 😜
+                        </p>
+                        <p class="italic text-purple-300 text-base font-normal font-serif flex items-center justify-center gap-1.5">
+                            I'm keeping this forever, my love <span class="text-purple-300">💜</span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Special Request / Saree Challenge Widget -->
+            <div id="saree-request-widget" class="w-full glass-inner rounded-2xl p-6 text-center opacity-0 transition-opacity duration-1000 flex flex-col items-center space-y-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">✨</span>
+                    <h3 class="font-sans-ui text-xs uppercase tracking-widest text-purple-300/90 font-semibold">
+                        Now for a special request...
+                    </h3>
+                </div>
+                
+                <p class="italic text-purple-200 text-base md:text-lg font-serif">
+                    Tap below if you are ready to do anything for me 🥺✨
+                </p>
+
+                <div id="saree-btn-container">
+                    <button onclick="revealSareePromise(event)" class="btn-glow px-8 py-3 rounded-full text-white font-semibold text-sm tracking-wide font-sans-ui focus:outline-none inline-flex items-center gap-2">
+                        <span>I'm ready! 💜</span>
+                    </button>
+                </div>
+
+                <div id="saree-reveal-card" class="hidden w-full bg-purple-950/60 p-5 rounded-2xl border border-purple-400/30 text-center animate-fade-in space-y-2">
+                    <div class="text-3xl mb-1">💃✨💜</div>
+                    <p class="text-lg md:text-xl font-bold text-purple-100 font-serif leading-snug">
+                        Wear a saree within a week for me 🥺💃✨💜
+                    </p>
+                    <p class="text-xs text-purple-300/80 font-sans-ui italic">
+                        Promise made! I can't wait to see you in it 🥰
+                    </p>
+                </div>
+            </div>
+
+            <!-- Live Distance & Countdown Clock Widget -->
+            <div id="counter-widget" class="w-full glass-inner rounded-2xl p-5 text-center opacity-0 transition-opacity duration-1000">
+                <p class="font-sans-ui text-xs uppercase tracking-widest text-purple-300/90 mb-3 font-semibold">
+                    ✨ 4 Years, 1,461 Days of Loving You ✨
+                </p>
+                <div class="grid grid-cols-4 gap-2 font-sans-ui text-center">
+                    <div class="bg-purple-950/40 p-3 rounded-xl border border-purple-400/20">
+                        <span id="counter-days" class="block text-xl md:text-2xl font-bold text-purple-200">1,461</span>
+                        <span class="text-[10px] md:text-xs text-purple-300/70">Days</span>
+                    </div>
+                    <div class="bg-purple-950/40 p-3 rounded-xl border border-purple-400/20">
+                        <span id="counter-hours" class="block text-xl md:text-2xl font-bold text-purple-200">35.0k</span>
+                        <span class="text-[10px] md:text-xs text-purple-300/70">Hours</span>
+                    </div>
+                    <div class="bg-purple-950/40 p-3 rounded-xl border border-purple-400/20">
+                        <span id="counter-mins" class="block text-xl md:text-2xl font-bold text-purple-200">2.1M</span>
+                        <span class="text-[10px] md:text-xs text-purple-300/70">Mins</span>
+                    </div>
+                    <div class="bg-purple-950/40 p-3 rounded-xl border border-purple-400/20">
+                        <span id="counter-secs" class="block text-xl md:text-2xl font-bold text-purple-300">00</span>
+                        <span class="text-[10px] md:text-xs text-purple-300/70">Secs</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- "Open When..." Virtual Love Letters Carousel -->
+            <div id="letters-widget" class="w-full opacity-0 transition-opacity duration-1000">
+                <h3 class="font-sans-ui text-xs uppercase tracking-widest text-purple-300/90 text-center mb-4 font-semibold">
+                    ✉ Open When... (Tap an envelope)
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 font-sans-ui">
+                    
+                    <button onclick="openLetter(1)" class="glass-inner hover:bg-purple-900/50 p-3.5 rounded-2xl border border-purple-400/20 transition-all text-center flex flex-col items-center justify-center group focus:outline-none min-h-[105px]">
+                        <span class="text-2xl mb-1.5 group-hover:scale-110 transition-transform">✉️</span>
+                        <span class="text-xs font-medium text-purple-200">When you miss me</span>
+                    </button>
+
+                    <button onclick="openLetter(2)" class="glass-inner hover:bg-purple-900/50 p-3.5 rounded-2xl border border-purple-400/20 transition-all text-center flex flex-col items-center justify-center group focus:outline-none min-h-[105px]">
+                        <span class="text-2xl mb-1.5 group-hover:scale-110 transition-transform">🌙</span>
+                        <span class="text-xs font-medium text-purple-200">When you can't sleep</span>
+                    </button>
+
+                    <button onclick="openLetter(3)" class="glass-inner hover:bg-purple-900/50 p-3.5 rounded-2xl border border-purple-400/20 transition-all text-center flex flex-col items-center justify-center group focus:outline-none min-h-[105px]">
+                        <span class="text-2xl mb-1.5 group-hover:scale-110 transition-transform">🗺️</span>
+                        <span class="text-xs font-medium text-purple-200">Distance feels hard</span>
+                    </button>
+
+                    <button onclick="openLetter(4)" class="glass-inner hover:bg-purple-900/50 p-3.5 rounded-2xl border border-purple-400/20 transition-all text-center flex flex-col items-center justify-center group focus:outline-none min-h-[105px]">
+                        <span class="text-2xl mb-1.5 group-hover:scale-110 transition-transform">🤍</span>
+                        <span class="text-xs font-medium text-purple-200">When we finally meet</span>
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- Interactive Love Jar / Reasons Why Generator -->
+            <div id="love-jar-widget" class="w-full glass-inner rounded-2xl p-5 text-center opacity-0 transition-opacity duration-1000 flex flex-col items-center">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-2xl">🫙</span>
+                    <h3 class="font-sans-ui text-xs uppercase tracking-widest text-purple-300/90 font-semibold">
+                        Love Jar • Pull a Sweet Note
+                    </h3>
+                </div>
+                <div id="jar-note-display" class="min-h-[60px] flex items-center justify-center px-4 mb-4 text-purple-100 italic text-sm md:text-base font-serif">
+                    "Tap the jar below to draw a reason why you are so special to me."
+                </div>
+                <button onclick="pullLoveNote(event)" class="bg-purple-900/60 hover:bg-purple-800/80 border border-purple-400/30 text-purple-200 px-5 py-2.5 rounded-full text-xs font-semibold font-sans-ui transition-all flex items-center gap-2 focus:outline-none shadow-md">
+                    <span>Pull a Note from the Love Jar 🫙✨</span>
+                </button>
+            </div>
+
+            <!-- Love Bucket List Checklist -->
+            <div id="bucket-list-widget" class="w-full glass-inner rounded-2xl p-5 opacity-0 transition-opacity duration-1000 font-sans-ui">
+                <h3 class="text-xs uppercase tracking-widest text-purple-300/90 text-center mb-4 font-semibold flex items-center justify-center gap-2">
+                    <span>📋 Our Togetherness Bucket List</span>
+                </h3>
+                <div class="space-y-3 text-sm text-purple-100">
+                    <label class="flex items-center gap-3 cursor-pointer p-2 rounded-xl hover:bg-purple-900/30 transition-colors">
+                        <input type="checkbox" checked disabled class="w-4 h-4 accent-purple-500 rounded border-purple-400/30">
+                        <span class="line-through text-purple-300/70">Fall madly in love across thousands of miles</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer p-2 rounded-xl hover:bg-purple-900/30 transition-colors" onclick="toggleCheckmark(this)">
+                        <input type="checkbox" class="w-4 h-4 accent-purple-500 rounded border-purple-400/30">
+                        <span>Wrap you in a tight hug for 10 minutes straight</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer p-2 rounded-xl hover:bg-purple-900/30 transition-colors" onclick="toggleCheckmark(this)">
+                        <input type="checkbox" class="w-4 h-4 accent-purple-500 rounded border-purple-400/30">
+                        <span>Cook a romantic cozy dinner together in person</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer p-2 rounded-xl hover:bg-purple-900/30 transition-colors" onclick="toggleCheckmark(this)">
+                        <input type="checkbox" class="w-4 h-4 accent-purple-500 rounded border-purple-400/30">
+                        <span>Go on late-night stargazing walks holding hands</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- ELEGANT & REFINED CLOSING CARD (Crafted for Video Call Moment) -->
+            <div id="closing-card-widget" class="w-full glass-inner rounded-2xl p-7 text-center opacity-0 transition-opacity duration-1000 flex flex-col items-center space-y-4 border border-purple-400/35 relative overflow-hidden bg-gradient-to-b from-purple-950/40 via-purple-900/30 to-purple-950/60 shadow-inner">
+                
+                <div class="flex items-center justify-center gap-2 text-purple-300">
+                    <span class="text-xl">✨</span>
+                    <span class="font-sans-ui text-xs uppercase tracking-widest text-purple-300 font-bold">
+                        A Message For Right Now
+                    </span>
+                    <span class="text-xl">✨</span>
+                </div>
+
+                <div class="py-2 px-1 space-y-3">
+                    <p class="italic text-purple-100 text-base md:text-lg font-serif leading-relaxed">
+                        "Since you're on a video call with me right now... Look up from your screen and look into my eyes."
+                    </p>
+                    <p class="italic text-purple-200 text-base md:text-lg font-serif leading-relaxed">
+                        "Thank you for being my home, my happiness, and my entire world. Here's to forever with you, my love. 💜"
+                    </p>
+                </div>
+
+                <div class="pt-3 border-t border-purple-400/20 w-full flex flex-col items-center justify-center">
+                    <p class="font-serif-title text-sm md:text-base text-purple-300 font-semibold tracking-wider flex items-center gap-2">
+                        <span>Forever & Always</span>
+                        <span class="text-purple-400">|</span>
+                        <span>Yours Truly</span>
+                    </p>
+                    <div class="text-purple-300 text-lg mt-1 heart-glow">💜</div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Modal Popup for Open When Letters -->
+    <div id="letter-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div class="glass-card max-w-md w-full rounded-3xl p-6 md:p-8 text-center relative border border-purple-400/30">
+            <button onclick="closeLetterModal()" class="absolute top-4 right-4 text-purple-300/70 hover:text-white text-xl focus:outline-none p-1">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modal-icon" class="text-4xl mb-3">✉️</div>
+            <h4 id="modal-title" class="font-serif-title text-xl text-purple-100 mb-3 font-semibold">Open When...</h4>
+            <p id="modal-content" class="text-purple-200/90 text-base leading-relaxed italic font-serif mb-6">
+                Letter text goes here...
+            </p>
+            <button onclick="closeLetterModal()" class="btn-glow px-6 py-2.5 rounded-full text-xs font-semibold font-sans-ui text-white">
+                Close Letter 💜
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Floating Background Hearts Canvas
+        const bgCanvas = document.getElementById('heart-canvas');
+        const bgCtx = bgCanvas.getContext('2d');
+
+        let width = bgCanvas.width = window.innerWidth;
+        let height = bgCanvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = bgCanvas.width = window.innerWidth;
+            height = bgCanvas.height = window.innerHeight;
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+        });
+
+        const bgParticles = [];
+        const bgParticleCount = 35;
+
+        class HeartParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = height + Math.random() * 100;
+                this.size = Math.random() * 14 + 8;
+                this.speedY = Math.random() * 0.75 + 0.35;
+                this.speedX = (Math.random() - 0.5) * 0.45;
+                this.opacity = Math.random() * 0.45 + 0.15;
+                this.color = '#b794f4';
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                
+                if (this.y < height * 0.15) {
+                    this.opacity -= 0.005;
+                }
+
+                if (this.y < -20 || this.opacity <= 0) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                bgCtx.save();
+                bgCtx.translate(this.x, this.y);
+                bgCtx.globalAlpha = Math.max(0, this.opacity);
+                bgCtx.fillStyle = this.color;
+                
+                const d = this.size;
+                bgCtx.beginPath();
+                bgCtx.moveTo(0, 0);
+                bgCtx.bezierCurveTo(-d / 2, -d / 2, -d, d / 3, 0, d);
+                bgCtx.bezierCurveTo(d, d / 3, d / 2, -d / 2, 0, 0);
+                bgCtx.fill();
+                
+                bgCtx.restore();
+            }
+        }
+
+        for (let i = 0; i < bgParticleCount; i++) {
+            const p = new HeartParticle();
+            p.y = Math.random() * height;
+            bgParticles.push(p);
+        }
+
+        function animateBgCanvas() {
+            bgCtx.clearRect(0, 0, width, height);
+            bgParticles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateBgCanvas);
+        }
+
+        // Custom HTML5 Canvas Heart Confetti Explosion
+        const confettiCanvas = document.getElementById('confetti-canvas');
+        const confettiCtx = confettiCanvas.getContext('2d');
+        confettiCanvas.width = window.innerWidth;
+        confettiCanvas.height = window.innerHeight;
+
+        let confettiParticles = [];
+
+        function launchHeartConfetti() {
+            const count = 110;
+            const colors = ['#b794f4', '#9f7aea', '#e9d5ff', '#f472b6', '#ffffff'];
+
+            for (let i = 0; i < count; i++) {
+                confettiParticles.push({
+                    x: window.innerWidth / 2,
+                    y: window.innerHeight / 2,
+                    size: Math.random() * 15 + 8,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    vx: (Math.random() - 0.5) * 20,
+                    vy: (Math.random() - 0.75) * 22,
+                    gravity: 0.28,
+                    opacity: 1,
+                    rotation: Math.random() * 360,
+                    rotSpeed: (Math.random() - 0.5) * 10
+                });
+            }
+            animateConfetti();
+        }
+
+        function animateConfetti() {
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            
+            confettiParticles.forEach((p, idx) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += p.gravity;
+                p.opacity -= 0.006;
+                p.rotation += p.rotSpeed;
+
+                confettiCtx.save();
+                confettiCtx.translate(p.x, p.y);
+                confettiCtx.rotate((p.rotation * Math.PI) / 180);
+                confettiCtx.globalAlpha = Math.max(0, p.opacity);
+                confettiCtx.fillStyle = p.color;
+
+                const d = p.size;
+                confettiCtx.beginPath();
+                confettiCtx.moveTo(0, 0);
+                confettiCtx.bezierCurveTo(-d / 2, -d / 2, -d, d / 3, 0, d);
+                confettiCtx.bezierCurveTo(d, d / 3, d / 2, -d / 2, 0, 0);
+                confettiCtx.fill();
+
+                confettiCtx.restore();
+
+                if (p.opacity <= 0 || p.y > confettiCanvas.height + 20) {
+                    confettiParticles.splice(idx, 1);
+                }
+            });
+
+            if (confettiParticles.length > 0) {
+                requestAnimationFrame(animateConfetti);
+            } else {
+                confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            }
+        }
+
+        // Web Audio API Ambient Romantic Synth Generator
+        let audioCtx = null;
+        let isPlayingAudio = false;
+        let melodyInterval = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playSoftTone(freq, duration) {
+            if (!audioCtx || audioCtx.state === 'suspended') return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.07, audioCtx.currentTime + 0.12);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        function toggleAudio() {
+            initAudio();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const icon = document.getElementById('music-icon');
+            const text = document.getElementById('music-text');
+
+            if (isPlayingAudio) {
+                clearInterval(melodyInterval);
+                isPlayingAudio = false;
+                icon.className = "fa-solid fa-music text-purple-300 text-sm";
+                text.textContent = "Play Ambient Melody";
+            } else {
+                isPlayingAudio = true;
+                icon.className = "fa-solid fa-volume-high text-purple-300 text-sm animate-pulse";
+                text.textContent = "Pause Melody";
+
+                const notes = [261.63, 329.63, 392.00, 440.00, 523.25, 659.25, 587.33];
+                let noteIdx = 0;
+                
+                playSoftTone(notes[0], 2.5);
+                melodyInterval = setInterval(() => {
+                    noteIdx = (noteIdx + 1) % notes.length;
+                    playSoftTone(notes[noteIdx], 2.2);
+                }, 850);
+            }
+        }
+
+        // Typewriter Message Lines
+        const textLines = [
+            { id: 'msg-line-1', text: 'Looking back at the last 4 years,' },
+            { id: 'msg-line-2', text: 'I’m so grateful for everything we’ve built together despite the distance.' },
+            { id: 'msg-line-3', text: 'You’re my favorite part of every day,' },
+            { id: 'msg-line-4', text: 'and after 3 long years, I’m dying to finally see you and hold you.' },
+            { id: 'msg-line-5', text: 'Happy 4th Anniversary! 💜' }
+        ];
+
+        function openEnvelope() {
+            initAudio();
+            if (!isPlayingAudio) {
+                toggleAudio();
+            }
+
+            const screen1 = document.getElementById('screen-1');
+            const screen2 = document.getElementById('screen-2');
+
+            screen1.classList.add('opacity-0', 'scale-95');
+            
+            setTimeout(() => {
+                screen1.classList.add('hidden');
+                screen2.classList.remove('hidden');
+                
+                void screen2.offsetWidth;
+                
+                screen2.classList.remove('opacity-0', 'scale-95');
+                screen2.classList.add('opacity-100', 'scale-100');
+
+                startTypewriterSequence();
+                startLiveCounter();
+            }, 600);
+        }
+
+        async function startTypewriterSequence() {
+            for (let i = 0; i < textLines.length; i++) {
+                const lineObj = textLines[i];
+                const element = document.getElementById(lineObj.id);
+                element.classList.add('typewriter-cursor');
+                
+                await typeText(element, lineObj.text, 40);
+                element.classList.remove('typewriter-cursor');
+                
+                await new Promise(res => setTimeout(res, 200));
+            }
+
+            // Sequenced reveal
+            document.getElementById('main-title-container').classList.remove('opacity-0');
+            await new Promise(res => setTimeout(res, 300));
+
+            document.getElementById('interactive-section').classList.remove('opacity-0');
+            await new Promise(res => setTimeout(res, 350));
+
+            document.getElementById('saree-request-widget').classList.remove('opacity-0');
+            await new Promise(res => setTimeout(res, 350));
+
+            document.getElementById('counter-widget').classList.remove('opacity-0');
+            await new Promise(res => setTimeout(res, 350));
+
+            document.getElementById('letters-widget').classList.remove('opacity-0');
+            await new Promise(res => setTimeout(res, 350));
+
+            document.getElementById('love-jar-widget').classList.remove('opacity-0');
+            await new Promise(res => setTimeout(res, 350));
+
+            document.getElementById('bucket-list-widget').classList.remove('opacity-0');
+            await new Promise(res => setTimeout(res, 350));
+
+            document.getElementById('closing-card-widget').classList.remove('opacity-0');
+        }
+
+        function revealSareePromise(event) {
+            const btnContainer = document.getElementById('saree-btn-container');
+            const revealCard = document.getElementById('saree-reveal-card');
+
+            btnContainer.classList.add('hidden');
+            revealCard.classList.remove('hidden');
+
+            createParticleBurst(event.clientX, event.clientY, 25);
+            launchHeartConfetti();
+        }
+
+        function typeText(element, text, speed) {
+            return new Promise(resolve => {
+                let charIndex = 0;
+                const timer = setInterval(() => {
+                    if (charIndex < text.length) {
+                        element.textContent += text.charAt(charIndex);
+                        charIndex++;
+                    } else {
+                        clearInterval(timer);
+                        resolve();
+                    }
+                }, speed);
+            });
+        }
+
+        function startLiveCounter() {
+            let secs = 0;
+            const secEl = document.getElementById('counter-secs');
+            setInterval(() => {
+                secs = (secs + 1) % 60;
+                secEl.textContent = secs < 10 ? '0' + secs : secs;
+            }, 1000);
+        }
+
+        // Open When Letters Modal Logic
+        const lettersData = {
+            1: {
+                icon: '✉️',
+                title: 'Open when you miss me',
+                content: '"Close your eyes for a second and listen to your heart—that’s where I live. No matter how many miles separate us tonight, my love is wrapped around you right now."'
+            },
+            2: {
+                icon: '🌙',
+                title: 'Open when you can’t sleep',
+                content: '"I wish I was there to tuck you in and stroke your hair. Imagine my arms around you right now holding you warm and safe. Sweet dreams my love."'
+            },
+            3: {
+                icon: '🗺️',
+                title: 'Open when distance feels hard',
+                content: '"Every single day that passes brings us one day closer to never having to say goodbye again. We are building our forever, and it is going to be so worth it."'
+            },
+            4: {
+                icon: '🤍',
+                title: 'Open when we finally meet',
+                content: '"I am going to wrap my arms around you and never let go. Get ready for the tightest, longest hug in history!"'
+            }
+        };
+
+        function openLetter(id) {
+            const letter = lettersData[id];
+            if (!letter) return;
+
+            document.getElementById('modal-icon').textContent = letter.icon;
+            document.getElementById('modal-title').textContent = letter.title;
+            document.getElementById('modal-content').textContent = letter.content;
+
+            const modal = document.getElementById('letter-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+            createParticleBurst(window.innerWidth / 2, window.innerHeight / 2, 10);
+        }
+
+        function closeLetterModal() {
+            const modal = document.getElementById('letter-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        // Love Jar Compliments Array
+        const loveJarNotes = [
+            "Your laugh instantly fixes my worst days 💖",
+            "How your voice makes anywhere feel like home 🏡",
+            "The adorable way you get sleepy at night 😴💜",
+            "How gentle and caring your heart is 🌸",
+            "The way you make me feel like the luckiest person alive ✨",
+            "How excited I get whenever your name pops up on my screen 📱💜",
+            "Your smile is my absolute favorite sight in the world 😊",
+            "How you always know how to make me laugh when I need it most 💜"
+        ];
+
+        let lastJarIdx = -1;
+        function pullLoveNote(event) {
+            let idx = Math.floor(Math.random() * loveJarNotes.length);
+            while (idx === lastJarIdx) {
+                idx = Math.floor(Math.random() * loveJarNotes.length);
+            }
+            lastJarIdx = idx;
+
+            const display = document.getElementById('jar-note-display');
+            display.style.opacity = '0';
+            
+            setTimeout(() => {
+                display.textContent = `"${loveJarNotes[idx]}"`;
+                display.style.opacity = '1';
+            }, 200);
+
+            createParticleBurst(event.clientX, event.clientY, 12);
+        }
+
+        function toggleCheckmark(labelEl) {
+            createParticleBurst(labelEl.getBoundingClientRect().left + 30, labelEl.getBoundingClientRect().top + 15, 6);
+        }
+
+        // Trigger Hug to Love transition matching screenshot sequence
+        function triggerHugToLove(event) {
+            const promptContainer = document.getElementById('prompt-container');
+            const finalLoveState = document.getElementById('final-love-state');
+
+            launchHeartConfetti();
+            createParticleBurst(event.clientX, event.clientY, 35);
+
+            promptContainer.classList.add('hidden');
+            finalLoveState.classList.remove('hidden');
+            finalLoveState.classList.add('flex');
+        }
+
+        function createParticleBurst(centerX, centerY, count = 15) {
+            const symbols = ['💜', '✨', '💖', '🌸', '💜'];
+
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'sparkle-particle text-base';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 110 + 30;
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance - 20;
+
+                particle.style.left = `${centerX}px`;
+                particle.style.top = `${centerY}px`;
+                particle.style.setProperty('--tw-x', `${x}px`);
+                particle.style.setProperty('--tw-y', `${y}px`);
+
+                document.body.appendChild(particle);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 1300);
+            }
+        }
+
+        window.onload = function() {
+            animateBgCanvas();
+        };
+    </script>
+</body>
+</html>
