@@ -1,24 +1,107 @@
-<!-- ... existing code ... -->
-        const messageText = 
-            "Looking back at the last 4 years,\n" +
-            "I’m so grateful for everything we’ve built together despite the distance.\n\n" +
-            "You’re my favorite part of every day,\n" +
-            "and after 3 long years, I’m dying to finally see you and hold you for the first time.\n\n" +
-            "Happy 4th Anniversary! 💜";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy 4th Anniversary!</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #fffaf0;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+    }
 
-        function startTypewriter() {
-<!-- ... existing code ... -->
-    <!-- Success Modal Pop-up -->
-    <div id="heartModal" class="fixed inset-0 z-50 modal-overlay flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="glass-card rounded-3xl p-8 max-w-sm w-full text-center transform scale-90 transition-transform duration-300 border-pink-500/30">
-            <div class="text-5xl mb-4 animate-bounce">🥰</div>
-            <h3 class="text-2xl font-bold text-pink-100 mb-2 cursive text-3xl">I Love You So Much!</h3>
-            <p class="text-pink-200/80 text-sm mb-6">
-                Counting down every second until I get to hold you for the first time! 💕
-            </p>
-            <button onclick="closeModal()" class="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-sm transition border border-white/20">
-                Close 💜
-            </button>
-        </div>
-    </div>
-<!-- ... existing code ... -->
+    .container {
+      max-width: 600px;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #2c2c2c;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    #typewriter {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      text-align: left;
+      margin-bottom: 30px;
+      min-height: 120px;
+    }
+
+    .btn {
+      background-color: #8a2be2;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      font-size: 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #7122bd;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>I Love You So Much!</h1>
+    <p class="subtitle">Counting down every second until I get to hold you for the first time! 💕</p>
+
+    <!-- The typewriter text will be rendered inside this div -->
+    <div id="typewriter"></div>
+
+    <button class="btn" onclick="alert('I love you!')">Close 💜</button>
+  </div>
+
+  <script>
+    // Template literal handles multiple lines and quotes smoothly
+    const messageText = `Looking back at the last 4 years,
+I’m so grateful for everything we’ve built together despite the distance.
+
+You’re my favorite part of every day,
+and after 3 long years, I’m dying to finally see you and hold you for the first time.
+
+Happy 4th Anniversary! 💜`;
+
+    let index = 0;
+    const speed = 40; // Speed of typing in milliseconds
+
+    function startTypewriter() {
+      const target = document.getElementById("typewriter");
+      if (index < messageText.length) {
+        target.textContent += messageText.charAt(index);
+        index++;
+        setTimeout(startTypewriter, speed);
+      }
+    }
+
+    // Run the animation automatically when the page finishes loading
+    window.onload = startTypewriter;
+  </script>
+
+</body>
+</html>
